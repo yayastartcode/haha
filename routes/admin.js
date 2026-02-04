@@ -305,9 +305,52 @@ router.post('/gallery/edit/:id', upload.single('image'), async (req, res) => {
     res.redirect('/admin/gallery');
 });
 
+
 router.get('/gallery/delete/:id', async (req, res) => {
     await db.query('DELETE FROM gallery WHERE id = ?', [req.params.id]);
     res.redirect('/admin/gallery');
+});
+
+// === Hero Slider Routes ===
+router.get('/hero_slider', async (req, res) => {
+    const [items] = await db.query('SELECT * FROM hero_slider ORDER BY created_at DESC');
+    const formattedItems = items.map(item => ({
+        id: item.id,
+        title: item.caption || 'No Caption',
+        created_at: item.created_at,
+        category: 'hero_slider',
+        image_url: item.image_url
+    }));
+
+    res.render('admin/list', {
+        title: 'Manage Hero Slider',
+        items: formattedItems,
+        basePath: '/admin/hero_slider',
+        createLink: '/admin/hero_slider/create'
+    });
+});
+
+router.get('/hero_slider/create', (req, res) => {
+    res.render('admin/edit', {
+        title: 'Add New Slider Image',
+        action: '/admin/hero_slider/create',
+        category: 'hero_slider',
+        item: null
+    });
+});
+
+router.post('/hero_slider/create', upload.single('image'), async (req, res) => {
+    const { title } = req.body; // 'title' input used for caption
+    await db.query(
+        'INSERT INTO hero_slider (image_url, caption) VALUES (?, ?)',
+        [req.file ? '/uploads/' + req.file.filename : null, title]
+    );
+    res.redirect('/admin/hero_slider');
+});
+
+router.get('/hero_slider/delete/:id', async (req, res) => {
+    await db.query('DELETE FROM hero_slider WHERE id = ?', [req.params.id]);
+    res.redirect('/admin/hero_slider');
 });
 
 // === Biography Route (Singleton) ===

@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
         const [dokumentasis] = await db.query('SELECT * FROM content_items WHERE category = "dokumentasi" ORDER BY created_at DESC LIMIT 3');
         const [books] = await db.query('SELECT * FROM content_items WHERE category = "book" ORDER BY created_at DESC LIMIT 10'); // Fetch more for slider
         const [gallery] = await db.query('SELECT * FROM gallery ORDER BY created_at DESC LIMIT 5');
+        const [heroSlider] = await db.query('SELECT * FROM hero_slider ORDER BY created_at DESC');
 
         res.render('index', {
             biography: biography[0] || null,
@@ -21,7 +22,8 @@ router.get('/', async (req, res) => {
             puisis,
             dokumentasis,
             books,
-            gallery
+            gallery,
+            heroSlider
         });
     } catch (err) {
         console.error(err);

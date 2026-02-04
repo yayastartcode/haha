@@ -24,6 +24,13 @@ CREATE TABLE IF NOT EXISTS gallery (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS hero_slider (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    image_url VARCHAR(255) NOT NULL,
+    caption VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Initial User (default: admin / password123)
 -- Hash generated for 'password123' using bcrypt
 INSERT IGNORE INTO users (username, password_hash) VALUES ('admin', '$2b$10$YourGeneratedHashHere'); 

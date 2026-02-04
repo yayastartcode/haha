@@ -14,7 +14,14 @@ app.set('views', path.join(__dirname, 'views'));
 
 // === Analytics & Online Tracker ===
 const db = require('./config/database');
-const geoip = require('geoip-lite'); // Added GeoIP
+// Lazy load geoip only when needed to save memory
+let geoip = null;
+const getGeoIP = () => {
+    if (!geoip) {
+        geoip = require('geoip-lite');
+    }
+    return geoip;
+};
 const onlineUsers = new Map();
 
 app.use(async (req, res, next) => {
@@ -82,7 +89,7 @@ app.use(async (req, res, next) => {
         && !isBot
         && !isLocalhost) {
 
-        const geo = geoip.lookup(ip);
+        const geo = getGeoIP().lookup(ip);
         let country = geo ? geo.country : null;
         let city = geo ? geo.city : 'Unknown';
 

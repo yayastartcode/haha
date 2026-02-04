@@ -7,8 +7,13 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'hudan_hidayat_db',
     waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+    connectionLimit: 5, // Reduced from 10 to save memory
+    queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0
 });
 
-module.exports = pool.promise();
+const db = pool.promise();
+db.pool = pool; // Export pool separately for session store
+
+module.exports = db;

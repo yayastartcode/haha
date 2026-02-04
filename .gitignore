@@ -23,6 +23,9 @@ yarn-error.log*
 lerna-debug.log*
 /var/log/
 
+# Development Tools & Scripts (not needed in production)
+dev-tools/
+
 # Database Files (contains sensitive data)
 # NOTE: database_full.sql is included temporarily for initial server deployment
 # IMPORTANT: Remove this file from git after server is running!

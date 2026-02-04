@@ -45,11 +45,46 @@ app.use(async (req, res, next) => {
         res.locals.recentViews = [];
     }
 
-    // 3. Log Page View
-    if (req.method === 'GET' && !req.path.startsWith('/admin') && !req.path.startsWith('/auth') && !req.path.includes('.') && req.path !== '/favicon.ico') {
+    // 3. Log Page View (with Bot & Debug Endpoint Filtering)
+
+    // Blacklist: Bot scanning & debug endpoints to ignore
+    const blacklistedPaths = [
+        '/debug', '/telescope', '/actuator', '/api-docs', '/v2/api-docs', '/v3/api-docs',
+        '/wp-admin', '/wp-login', '/xmlrpc.php', '/.env', '/.git',
+        '/phpmyadmin', '/phpMyAdmin', '/pma', '/mysql',
+        '/admin.php', '/login.php', '/config.php',
+        '/.well-known/security.txt', '/robots.txt', '/sitemap.xml'
+    ];
+
+    // Bot user agents to ignore
+    const botUserAgents = [
+        'bot', 'crawler', 'spider', 'scraper', 'curl', 'wget', 'python',
+        'java', 'http', 'scanner', 'test', 'monitor', 'uptime'
+    ];
+
+    // Check if path is blacklisted
+    const isBlacklisted = blacklistedPaths.some(blocked => req.path.toLowerCase().includes(blocked.toLowerCase()));
+
+    // Check if user agent is bot
+    const userAgent = (req.get('User-Agent') || '').toLowerCase();
+    const isBot = botUserAgents.some(bot => userAgent.includes(bot));
+
+    // Check if localhost/local IP
+    const isLocalhost = ip === '::1' || ip === '127.0.0.1' || ip.startsWith('192.168.') || ip.startsWith('10.') || ip.startsWith('172.');
+
+    // Only log legitimate traffic
+    if (req.method === 'GET'
+        && !req.path.startsWith('/admin')
+        && !req.path.startsWith('/auth')
+        && !req.path.includes('.')
+        && req.path !== '/favicon.ico'
+        && !isBlacklisted
+        && !isBot
+        && !isLocalhost) {
+
         const geo = geoip.lookup(ip);
-        let country = geo ? geo.country : (ip === '::1' || ip === '127.0.0.1' ? 'ID' : null);
-        let city = geo ? geo.city : (ip === '::1' || ip === '127.0.0.1' ? 'Local' : 'Unknown');
+        let country = geo ? geo.country : null;
+        let city = geo ? geo.city : 'Unknown';
 
         db.query('INSERT INTO page_views (path, ip_address, user_agent, country, city) VALUES (?, ?, ?, ?, ?)',
             [req.path, ip, req.get('User-Agent'), country, city]).catch(err => console.error('Stats Error:', err));

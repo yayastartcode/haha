@@ -43,11 +43,21 @@ router.get('/', async (req, res) => {
             ORDER BY date ASC
         `);
 
-        // Location Stats (Aggregated by City/Region)
+        // Location Stats (Show City, Country or just Country if city unknown)
         const [locations] = await db.query(`
-            SELECT COALESCE(city, 'Unknown') as city, COUNT(*) as count 
+            SELECT 
+                CASE 
+                    WHEN city IS NOT NULL AND city != 'Unknown' THEN CONCAT(city, ', ', COALESCE(country, ''))
+                    WHEN country IS NOT NULL THEN country
+                    ELSE 'Unknown Location'
+                END as location,
+                COUNT(*) as count 
             FROM page_views 
-            GROUP BY city 
+            WHERE city IS NOT NULL 
+                AND city != 'Unknown' 
+                AND city != 'Local'
+                AND country IS NOT NULL
+            GROUP BY location 
             ORDER BY count DESC 
             LIMIT 5
         `);

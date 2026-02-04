@@ -106,11 +106,35 @@ app.use(async (req, res, next) => {
     next();
 });
 
-// Session Config
+// Session Config with MySQL Store (Production-Ready)
+const MySQLStore = require('express-mysql-session')(session);
+
+const sessionStore = new MySQLStore({
+    clearExpired: true,
+    checkExpirationInterval: 900000, // 15 minutes
+    expiration: 86400000, // 24 hours
+    createDatabaseTable: true, // Auto-create sessions table
+    schema: {
+        tableName: 'sessions',
+        columnNames: {
+            session_id: 'session_id',
+            expires: 'expires',
+            data: 'data'
+        }
+    }
+}, db.pool);
+
 app.use(session({
+    key: 'hudanhidayat_session',
     secret: process.env.SESSION_SECRET || 'secret_key',
+    store: sessionStore,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 86400000, // 24 hours
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production' // HTTPS only in production
+    }
 }));
 
 // Routes

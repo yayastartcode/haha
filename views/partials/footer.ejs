@@ -1,0 +1,123 @@
+<!-- News Ticker Stats -->
+<div class="bg-salihara-dark text-white py-2 overflow-hidden border-b border-gray-800 relative z-40">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 flex items-center">
+        <!-- Static Stats (Diam) -->
+        <div
+            class="flex items-center space-x-6 text-[10px] uppercase font-bold tracking-widest border-r border-gray-700 pr-6 mr-6 whitespace-nowrap">
+            <span class="flex items-center">
+                <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                Online: <strong class="ml-1">
+                    <%= typeof onlineUsersCount !=='undefined' ? onlineUsersCount : 0 %>
+                </strong>
+            </span>
+            <span class="flex items-center">
+                Hari ini: <strong class="ml-1 text-salihara-red">
+                    <%= typeof todayViewsCount !=='undefined' ? todayViewsCount : 0 %>
+                </strong>
+            </span>
+        </div>
+
+        <!-- Ticker Content (Bergerak) -->
+        <div class="ticker-wrapper relative flex-1 overflow-hidden h-5">
+            <div
+                class="ticker-content flex whitespace-nowrap space-x-12 items-center text-[10px] uppercase tracking-[0.2em] text-gray-400 animate-ticker">
+                <% if (typeof recentViews !=='undefined' && recentViews.length> 0) { %>
+                    <% // Create the content snippet to be repeated for smooth loop %>
+                        <% const recentItems=recentViews.map(view=> `
+                            <span>
+                                Pengunjung dari <span class="text-white font-semibold">${view.city || 'Local'}</span>
+                                melihat <span class="italic text-gray-200 lowercase">${view.path}</span>
+                            </span>
+                            `).join('<span class="mx-6 text-gray-700">/</span>') %>
+
+                            <div class="flex items-center space-x-12">
+                                <%- recentItems %>
+                            </div>
+                            <!-- Duplicate for infinite loop -->
+                            <div class="flex items-center space-x-12" aria-hidden="true">
+                                <%- recentItems %>
+                            </div>
+                            <% } else { %>
+                                <span>Menunggu aktivitas pengunjung...</span>
+                                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes ticker {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    .animate-ticker {
+        display: flex;
+        width: fit-content;
+        animation: ticker 60s linear infinite;
+    }
+
+    .animate-ticker:hover {
+        animation-play-state: paused;
+    }
+</style>
+
+<!-- Footer -->
+<footer class="bg-white pt-16 pb-8 px-6 md:px-12 text-xs">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- Contact Info -->
+        <div class="col-span-1">
+            <h4 class="font-bold mb-4">Hudan Hidayat</h4>
+            <p class="mb-4 text-gray-500 leading-relaxed">
+                <%- siteSettings.footer_address ? siteSettings.footer_address.replace(/\n/g, '<br>' )
+                    : 'Jl. Salihara No. 16, Ps. Minggu,<br>Pasar Minggu,<br>South Jakarta,<br>DKI Jakarta 12520' %>
+            </p>
+            <button class="bg-[#FA7268] text-white px-6 py-2 rounded-full font-bold mb-6 hover:bg-red-500 transition">
+                <%= siteSettings.footer_contact_label || 'Contact Us' %>
+            </button>
+            <div class="flex gap-4 text-gray-500 mb-4">
+                <a href="<%= siteSettings.instagram_url || '#' %>" class="hover:text-black">Instagram</a>
+                <a href="<%= siteSettings.twitter_url || '#' %>" class="hover:text-black">Twitter</a>
+                <a href="<%= siteSettings.facebook_url || '#' %>" class="hover:text-black">Facebook</a>
+            </div>
+            <a href="#" class="text-[#FA7268] hover:underline block">Subscribe Newsletter</a>
+        </div>
+
+        <!-- Links Column 1 -->
+        <div class="col-span-1">
+            <ul class="space-y-2 text-gray-600">
+                <li><a href="#esai" class="hover:text-black">Esai</a></li>
+                <li><a href="#novel" class="hover:text-black">Novel</a></li>
+            </ul>
+        </div>
+
+        <!-- Links Column 2 -->
+        <div class="col-span-1">
+            <ul class="space-y-2 text-gray-600">
+                <li><a href="#cerpen" class="hover:text-black">Cerpen</a></li>
+                <li><a href="#puisi" class="hover:text-black">Puisi</a></li>
+            </ul>
+        </div>
+
+        <!-- Links Column 3 -->
+        <div class="col-span-1">
+            <ul class="space-y-2 text-gray-600">
+                <li><a href="#dokumentasi" class="hover:text-black">Dokumentasi</a></li>
+                <li><a href="#galeri" class="hover:text-black">Galeri</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto mt-12 flex justify-end">
+        <div class="w-4 h-4 rounded-full border border-gray-400"></div>
+    </div>
+</footer>
+
+</body>
+
+</html>

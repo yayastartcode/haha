@@ -1,0 +1,90 @@
+# ===============================================
+# .gitignore for Hudan Hidayat Project
+# ===============================================
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables (SENSITIVE - DO NOT COMMIT!)
+.env
+.env.local
+.env.production
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+/var/log/
+
+# Database Files (contains sensitive data)
+# NOTE: database_full.sql is included temporarily for initial server deployment
+# IMPORTANT: Remove this file from git after server is running!
+# database_full.sql  # Uncomment this after initial deployment
+*.sql.gz
+*.sql.zip
+/backups/
+
+# User Uploaded Files
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# IDE / Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
+*_backup.ejs
+*_backup.*
+
+# Build / Distribution
+dist/
+build/
+.cache/
+
+# PM2 Runtime
+.pm2/
+pids/
+*.pid
+*.seed
+
+# Coverage / Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# Sensitive Configuration (jika ada)
+config/production.json
+
+# Package manager lock files (optional - tapi biasanya di-commit)
+# package-lock.json
+# yarn.lock
+
+# Documentation yang ter-generate
+/docs/generated/

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= typeof title !=='undefined' ? title + ' - Hudan Hidayat' : 'Hudan Hidayat Website' %>
+    </title>
+    <meta name="description"
+        content="<%= typeof metaDesc !== 'undefined' ? metaDesc : 'Website resmi Hudan Hidayat - Karya Sastra, Esai, Novel, Cerpen, dan Puisi.' %>">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= typeof metaUrl !== 'undefined' ? metaUrl : 'http://hudanhidayat.com/' %>">
+    <meta property="og:title"
+        content="<%= typeof title !== 'undefined' ? title + ' - Hudan Hidayat' : 'Hudan Hidayat Website' %>">
+    <meta property="og:description"
+        content="<%= typeof metaDesc !== 'undefined' ? metaDesc : 'Website resmi Hudan Hidayat - Karya Sastra, Esai, Novel, Cerpen, dan Puisi.' %>">
+    <meta property="og:image"
+        content="<%= typeof metaImage !== 'undefined' ? metaImage : 'http://hudanhidayat.com/images/tentang.jpeg' %>">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<%= typeof metaUrl !== 'undefined' ? metaUrl : 'http://hudanhidayat.com/' %>">
+    <meta property="twitter:title"
+        content="<%= typeof title !== 'undefined' ? title + ' - Hudan Hidayat' : 'Hudan Hidayat Website' %>">
+    <meta property="twitter:description"
+        content="<%= typeof metaDesc !== 'undefined' ? metaDesc : 'Website resmi Hudan Hidayat - Karya Sastra, Esai, Novel, Cerpen, dan Puisi.' %>">
+    <meta property="twitter:image"
+        content="<%= typeof metaImage !== 'undefined' ? metaImage : 'http://hudanhidayat.com/images/tentang.jpeg' %>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'salihara-red': '#E45046',
+                        'salihara-dark': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .diagonal-bg {
+            clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800 font-sans antialiased">
+    <!-- Header -->
+    <header class="py-4 px-6 md:px-12 flex justify-between items-center bg-white sticky top-0 z-50 shadow-sm">
+        <div class="logo">
+            <a href="/" class="block hover:opacity-80 transition">
+                <h1 class="text-2xl font-serif text-salihara-red tracking-wider">Hudan Hidayat</h1>
+                <span class="text-xs text-gray-500 uppercase tracking-[0.2em]">Website</span>
+            </a>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden lg:flex space-x-6 text-[10px] xl:text-xs font-bold uppercase tracking-widest text-gray-500">
+            <a href="/esai" class="hover:text-salihara-red transition px-2">Esai</a>
+            <a href="/novel" class="hover:text-salihara-red transition px-2">Novel</a>
+            <a href="/cerpen" class="hover:text-salihara-red transition px-2">Cerpen</a>
+            <a href="/puisi" class="hover:text-salihara-red transition px-2">Puisi</a>
+            <a href="/dokumentasi" class="hover:text-salihara-red transition px-2">Dokumentasi</a>
+            <a href="/book" class="hover:text-salihara-red transition px-2">Buku</a>
+            <a href="/gallery" class="hover:text-salihara-red transition px-2 border-l border-gray-200">Galeri</a>
+        </nav>
+
+        <button id="mobile-menu-button" class="lg:hidden text-gray-600 focus:outline-none p-2 translate-x-2">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16m-7 6h7">
+                </path>
+            </svg>
+        </button>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="fixed inset-0 bg-salihara-dark bg-opacity-98 z-[60] flex flex-col items-center justify-center space-y-8 transform transition-transform duration-300 translate-x-full lg:hidden">
+        <button id="close-menu-button" class="absolute top-6 right-6 text-white text-3xl focus:outline-none p-4">
+            &times;
+        </button>
+        <nav class="flex flex-col items-center space-y-6 text-xl font-serif text-white uppercase tracking-widest">
+            <a href="/" class="hover:text-salihara-red transition">Home</a>
+            <a href="/esai" class="hover:text-salihara-red transition">Esai</a>
+            <a href="/novel" class="hover:text-salihara-red transition">Novel</a>
+            <a href="/cerpen" class="hover:text-salihara-red transition">Cerpen</a>
+            <a href="/puisi" class="hover:text-salihara-red transition">Puisi</a>
+            <a href="/dokumentasi" class="hover:text-salihara-red transition">Dokumentasi</a>
+            <a href="/book" class="hover:text-salihara-red transition">Buku</a>
+            <a href="/gallery" class="hover:text-salihara-red transition">Galeri</a>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const closeMenuButton = document.getElementById('close-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            function toggleMenu() {
+                if (mobileMenu.classList.contains('translate-x-full')) {
+                    mobileMenu.classList.remove('translate-x-full');
+                    mobileMenu.classList.add('translate-x-0');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    mobileMenu.classList.add('translate-x-full');
+                    mobileMenu.classList.remove('translate-x-0');
+                    document.body.style.overflow = '';
+                }
+            }
+
+            if (mobileMenuButton && closeMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', toggleMenu);
+                closeMenuButton.addEventListener('click', toggleMenu);
+
+                // Close menu on link click
+                mobileMenu.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('translate-x-full');
+                        mobileMenu.classList.remove('translate-x-0');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+        });
+    </script>

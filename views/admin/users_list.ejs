@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Users - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 flex h-screen">
+    <%- include('sidebar') %>
+
+        <main class="flex-1 overflow-y-auto p-8">
+            <div class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800">Manage Users</h1>
+                <a href="/admin/users/create"
+                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition">
+                    + Add New User
+                </a>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                            <th class="p-4 text-sm font-semibold text-gray-600">ID</th>
+                            <th class="p-4 text-sm font-semibold text-gray-600">Username</th>
+                            <th class="p-4 text-sm font-semibold text-gray-600">Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <% users.forEach(user=> { %>
+                            <tr class="hover:bg-gray-50">
+                                <td class="p-4 text-gray-800">
+                                    <%= user.id %>
+                                </td>
+                                <td class="p-4 text-gray-800 font-medium">
+                                    <%= user.username %>
+                                </td>
+                                <td class="p-4 text-gray-500 text-sm">
+                                    <%= new Date(user.created_at).toLocaleDateString() %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                                <% if (users.length===0) { %>
+                                    <tr>
+                                        <td colspan="3" class="p-8 text-center text-gray-500">No users found.</td>
+                                    </tr>
+                                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+</body>
+
+</html>

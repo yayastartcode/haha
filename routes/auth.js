@@ -19,7 +19,13 @@ router.post('/login', async (req, res) => {
         if (match) {
             req.session.userId = user.id;
             req.session.isAdmin = true;
-            res.redirect('/admin');
+            req.session.save((err) => {
+                if (err) {
+                    console.error('Session Save Error:', err);
+                    return res.status(500).send('Session Error');
+                }
+                res.redirect('/admin');
+            });
         } else {
             res.render('login', { error: 'Invalid username or password' });
         }

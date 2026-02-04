@@ -140,9 +140,12 @@ app.use(session({
     cookie: {
         maxAge: 86400000, // 24 hours
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production' // HTTPS only in production
+        secure: process.env.NODE_ENV === 'production' && process.env.require_https === 'true' // Only secure if explicitly requested
     }
 }));
+
+// Trust Proxy (Required for Nginx/Reverse Proxy & Secure Cookies)
+app.set('trust proxy', 1);
 
 // Routes
 const indexRouter = require('./routes/index');
